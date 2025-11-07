@@ -33,12 +33,18 @@ function QrCodeScanner() {
           فعال‌سازی دوربین
         </button>
       ) : (
-        <div className="w-full max-w-sm">
+        <div className="w-[200px] h-[200px]">
           <Scanner
             onScan={handleScan}
             onError={handleError}
             constraints={{
               facingMode: "environment",
+            }}
+            styles={{
+              container: {
+                width: "400px",
+                height: "400px",
+              },
             }}
           />
           <button
