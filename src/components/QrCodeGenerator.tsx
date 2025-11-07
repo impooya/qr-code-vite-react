@@ -1,6 +1,14 @@
 import { QRCodeSVG } from "qrcode.react";
 
 function QrCodeGenerator() {
+  const toPersianNumber = (num: number): string => {
+    const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+    return num
+      .toString()
+      .split("")
+      .map((digit) => persianDigits[parseInt(digit)])
+      .join("");
+  };
   return (
     <div
       style={{
@@ -15,19 +23,34 @@ function QrCodeGenerator() {
       }}
     >
       {Array.from({ length: 100 }).map((_, index) => (
-        <QRCodeSVG
+        <div
           key={index}
-          value={`${index}`}
-          width={800}
-          height={800}
-          style={{ margin: "40px" }}
-          imageSettings={{
-            src: "/logo.jpg",
-            height: 20,
-            width: 20,
-            excavate: true,
+          style={{
+            position: "relative",
+            display: "inline-block",
+            margin: "40px",
           }}
-        />
+        >
+          <QRCodeSVG value={`${index}`} width={800} height={800} />
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              backgroundColor: "white",
+              padding: "20px 30px",
+              borderRadius: "8px",
+              fontSize: "48px",
+              fontWeight: "bold",
+              fontFamily: "Vazir, sans-serif",
+              color: "#000",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+            }}
+          >
+            {toPersianNumber(index)}
+          </div>
+        </div>
       ))}
     </div>
   );
