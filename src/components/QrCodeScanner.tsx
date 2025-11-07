@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
 
-function QrCodeScanner() {
-  const [scannedResult, setScannedResult] = useState("");
-  const [isCameraOpen, setIsCameraOpen] = useState(false);
+interface ScanResult {
+  rawValue: string;
+}
 
-  const handleScan = (result) => {
-    if (result) {
+function QrCodeScanner() {
+  const [scannedResult, setScannedResult] = useState<string>("");
+  const [isCameraOpen, setIsCameraOpen] = useState<boolean>(false);
+
+  const handleScan = (result: ScanResult[] | null) => {
+    if (result && result.length > 0) {
       console.log(result);
       setScannedResult(result[0].rawValue);
-      setIsCameraOpen(false); 
+      setIsCameraOpen(false);
     }
   };
 
-  const handleError = (error) => {
+  const handleError = (error: unknown) => {
     console.error(error);
   };
 
@@ -34,7 +38,7 @@ function QrCodeScanner() {
             onScan={handleScan}
             onError={handleError}
             constraints={{
-              facingMode: "environment", 
+              facingMode: "environment",
             }}
           />
           <button
@@ -49,10 +53,11 @@ function QrCodeScanner() {
       {scannedResult && (
         <div className="text-green-700 font-medium p-4 bg-green-50 rounded-lg max-w-sm break-all">
           <p className="mb-2">نتیجه اسکن:</p>
-          {scannedResult.startsWith('http://') || scannedResult.startsWith('https://') ? (
-            <a 
-              href={scannedResult} 
-              target="_blank" 
+          {scannedResult.startsWith("http://") ||
+          scannedResult.startsWith("https://") ? (
+            <a
+              href={scannedResult}
+              target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 underline hover:text-blue-800"
             >
@@ -68,4 +73,3 @@ function QrCodeScanner() {
 }
 
 export default QrCodeScanner;
-
